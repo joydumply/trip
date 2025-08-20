@@ -9,6 +9,7 @@ import (
 	"trip-planner/internal/service"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func Run(cfg *config.Config) {
@@ -23,6 +24,12 @@ func Run(cfg *config.Config) {
 	handler := NewHandler(srv)
 
 	app := fiber.New()
+
+	app.Use(cors.New(cors.Config{
+            AllowOrigins: "http://localhost:5173", // или "*" если для всего
+            AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
+            AllowHeaders: "Origin, Content-Type, Accept",
+        }))
 
 	handler.RegisterRoutes(app)
 
